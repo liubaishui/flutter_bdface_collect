@@ -330,7 +330,9 @@
 - (void)isTimeOut:(BOOL)isOrNot {
     if (isOrNot){
         // 加载超时的view
-        [self outTimeViewLoad];
+//        [self outTimeViewLoad];
+        self.completion(NULL, YES);
+                [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -395,7 +397,7 @@
 - (void)closeAction {
     _hasFinished = YES;
     self.videoCapture.runningStatus = NO;
-    self.completion(NULL);
+    self.completion(NULL, NO);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -415,7 +417,7 @@
 }
 
 - (IBAction)backToPreView:(UIButton *)sender{
-    self.completion(NULL);
+    self.completion(NULL, NO);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -66,6 +66,7 @@
     NSNumber* cropWidth = faceConfigMap[@"cropWidth"];
     NSNumber* enlargeRatio = faceConfigMap[@"enlargeRatio"];
     NSNumber* faceFarRatio = faceConfigMap[@"faceFarRatio"];
+    NSNumber* detectTimeout = faceConfigMap[@"detectTimeout"];
 //    NSNumber* faceClosedRatio = faceConfigMap[@"faceClosedRatio"];
     NSNumber* sund = faceConfigMap[@"sund"];
     NSNumber* livenessRandom = faceConfigMap[@"livenessRandom"];
@@ -111,6 +112,8 @@
     [[FaceSDKManager sharedInstance] setMinRect:faceFarRatio.floatValue];
     // 设置图片加密类型，type=0 基于base64 加密；type=1 基于百度安全算法加密
     [[FaceSDKManager sharedInstance] setImageEncrypteType:secType.intValue];
+    // 设置超时时间
+    [[FaceSDKManager sharedInstance] setConditionTimeout:detectTimeout.floatValue];
     // 初始化SDK功能
     [[FaceSDKManager sharedInstance] initCollect];
     BDFaceBaseViewController* lvc;
@@ -141,15 +144,21 @@
         [[IDLFaceDetectionManager sharedInstance] setEnableSound:sund.boolValue];
         lvc = [[BDFaceDetectionViewController alloc] init];
     }
-    lvc.completion = ^(FaceCropImageInfo* bestImage){
-        if (bestImage == NULL) {
-            result(NULL);
-        } else {
-            NSDictionary *res = @{@"imageCropBase64": bestImage.cropImageWithBlackEncryptStr,
-                                  @"imageSrcBase64": bestImage.originalImageEncryptStr};
-            result(res);
-        }        
-    };
+    lvc.completion = ^(FaceCropImageInfo* bestImage, BOOL isTimeout){
+            if (bestImage == NULL) {
+                if (isTimeout) {
+                    NSDictionary *res = @{@"error": @"timeout"};
+                    result(res);
+                } else {
+                    result(NULL);
+                }
+                
+            } else {
+                NSDictionary *res = @{@"imageCropBase64": bestImage.cropImageWithBlackEncryptStr,
+                                      @"imageSrcBase64": bestImage.originalImageEncryptStr};
+                result(res);
+            }
+        };
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:lvc];
     navi.navigationBarHidden = true;
     navi.modalPresentationStyle = UIModalPresentationFullScreen;

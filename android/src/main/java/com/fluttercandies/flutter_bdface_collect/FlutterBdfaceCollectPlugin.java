@@ -31,6 +31,7 @@ public class FlutterBdfaceCollectPlugin implements FlutterPlugin, MethodCallHand
     private Activity activity;
     private static final int COLLECT_REQ_CODE = 19491001; /// I love China
     public static final int COLLECT_OK_CODE = 10011949; /// I love China
+    public static final int COLLECT_TIMEOUT_CODE = 1001950;
     private static final String channelName = "com.fluttercandies.bdface_collect";
     private Result result;
     static String imageCropBase64, imageSrcBase64;
@@ -78,6 +79,9 @@ public class FlutterBdfaceCollectPlugin implements FlutterPlugin, MethodCallHand
                         res = new HashMap<>();
                         res.put("imageCropBase64", imageCropBase64);
                         res.put("imageSrcBase64", imageSrcBase64);
+                    } else if (resultCode == COLLECT_TIMEOUT_CODE) {
+                        res = new HashMap<>();
+                        res.put("error", "timeout");
                     }
                     result.success(res);
                 }
@@ -163,6 +167,7 @@ public class FlutterBdfaceCollectPlugin implements FlutterPlugin, MethodCallHand
         Integer headPitch = (Integer) argumentsMap.get("headPitch");
         Integer headYaw = (Integer) argumentsMap.get("headYaw");
         Integer headRoll = (Integer) argumentsMap.get("headRoll");
+        Integer detectTimeout = (Integer) argumentsMap.get("detectTimeout");
         Double eyeClosed = (Double) argumentsMap.get("eyeClosed");
         Integer cacheImageNum = (Integer) argumentsMap.get("cacheImageNum");
         Double scale = (Double) argumentsMap.get("scale");
@@ -236,7 +241,7 @@ public class FlutterBdfaceCollectPlugin implements FlutterPlugin, MethodCallHand
         // 设置 开启提示音
         config.setSound(sund);
         // 检测超时设置
-        config.setTimeDetectModule(FaceEnvironment.TIME_DETECT_MODULE);
+        config.setTimeDetectModule(detectTimeout);
         // 设置 动作活体是否随机
         config.setLivenessRandom(livenessRandom);
         // 设置 活体动作

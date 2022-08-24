@@ -75,6 +75,8 @@ class FaceConfig {
   /// 开启提示音
   late bool sund;
 
+  late int detectTimeOut;
+
   FaceConfig(
       {this.minFaceSize = 200,
       this.notFace = 0.6,
@@ -100,6 +102,7 @@ class FaceConfig {
       this.faceFarRatio = 0.4,
       this.faceClosedRatio = 1,
       this.secType = 0,
+      this.detectTimeOut = 15000,
       this.sund = true,
       this.livenessRandom = true,
       Set<LivenessType>? livenessTypes})
@@ -153,6 +156,7 @@ class FaceConfig {
         'faceClosedRatio': this.faceClosedRatio,
         'secType': this.secType,
         'sund': this.sund,
+        'detectTimeOut': this.detectTimeOut,
         'livenessTypes': this.livenessTypes.map((v) => v.code).toList(),
         'livenessRandom': livenessRandom,
       };

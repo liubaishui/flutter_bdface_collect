@@ -18,7 +18,7 @@ typedef enum : NSUInteger {
     occlusionStatus
 } WarningStatus;
 
-typedef void (^successCompletion)(FaceCropImageInfo* bestImage);
+typedef void (^successCompletion)(FaceCropImageInfo* bestImage, BOOL isTimeout);
 
 @interface BDFaceBaseViewController : UIViewController
 

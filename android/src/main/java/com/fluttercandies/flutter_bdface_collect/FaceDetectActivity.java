@@ -59,8 +59,7 @@ public class FaceDetectActivity extends BaseActivity implements
         Camera.PreviewCallback,
         Camera.ErrorCallback,
         VolumeUtils.VolumeCallback,
-        IDetectStrategyCallback,
-        TimeoutDialog.OnTimeoutDialogClickListener {
+        IDetectStrategyCallback {
 
     public static final String TAG = FaceDetectActivity.class.getSimpleName();
     // View
@@ -101,7 +100,7 @@ public class FaceDetectActivity extends BaseActivity implements
     // 监听系统音量广播
     protected BroadcastReceiver mVolumeReceiver;
     // 超时 Dialog
-    private TimeoutDialog mTimeoutDialog;
+//    private TimeoutDialog mTimeoutDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -446,10 +445,8 @@ public class FaceDetectActivity extends BaseActivity implements
             // 获取最优图片
             getBestImage(base64ImageCropMap, base64ImageSrcMap);
         } else if (status == FaceStatusNewEnum.DetectRemindCodeTimeout) {
-            if (mViewBg != null) {
-                mViewBg.setVisibility(View.VISIBLE);
-            }
-            showMessageDialog();
+            setResult(FlutterBdfaceCollectPlugin.COLLECT_TIMEOUT_CODE);
+            finish();
         }
     }
 
@@ -501,14 +498,14 @@ public class FaceDetectActivity extends BaseActivity implements
         finish();
     }
 
-    private void showMessageDialog() {
-        mTimeoutDialog = new TimeoutDialog(this);
-        mTimeoutDialog.setDialogListener(this);
-        mTimeoutDialog.setCanceledOnTouchOutside(false);
-        mTimeoutDialog.setCancelable(false);
-        mTimeoutDialog.show();
-        onPause();
-    }
+//    private void showMessageDialog() {
+//        mTimeoutDialog = new TimeoutDialog(this);
+//        mTimeoutDialog.setDialogListener(this);
+//        mTimeoutDialog.setCanceledOnTouchOutside(false);
+//        mTimeoutDialog.setCancelable(false);
+//        mTimeoutDialog.show();
+//        onPause();
+//    }
 
     private void onRefreshView(FaceStatusNewEnum status, String message) {
         switch (status) {
@@ -598,22 +595,22 @@ public class FaceDetectActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onRecollect() {
-        if (mTimeoutDialog != null) {
-            mTimeoutDialog.dismiss();
-        }
-        if (mViewBg != null) {
-            mViewBg.setVisibility(View.GONE);
-        }
-        onResume();
-    }
-
-    @Override
-    public void onReturn() {
-        if (mTimeoutDialog != null) {
-            mTimeoutDialog.dismiss();
-        }
-        finish();
-    }
+//    @Override
+//    public void onRecollect() {
+//        if (mTimeoutDialog != null) {
+//            mTimeoutDialog.dismiss();
+//        }
+//        if (mViewBg != null) {
+//            mViewBg.setVisibility(View.GONE);
+//        }
+//        onResume();
+//    }
+//
+//    @Override
+//    public void onReturn() {
+//        if (mTimeoutDialog != null) {
+//            mTimeoutDialog.dismiss();
+//        }
+//        finish();
+//    }
 }
