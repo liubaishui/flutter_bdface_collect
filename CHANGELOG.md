@@ -1,3 +1,30 @@
+## 1.1.8
+
+* FIx no result on iOS
+* 修复在ios无采集结果问题
+
+## 1.1.7
+
+* FIX crash on ios
+* 修复在ios平台崩溃问题
+
+## 1.1.6
+
+* UPDATE README.md
+* 更新README.md
+
+## 1.1.5
+
+* UPDATE SDK to 4.1.5
+* FIX ios resource import
+* 更新SDK版本到 4.1.5
+* 整理ios层资源引用
+
+## 1.1.4
+
+* Remove auto start in Android  
+* 移除安卓端自启
+
 ## 1.1.3
 
 * fix Android projects no longer need to modify AndroidManifest.xml
